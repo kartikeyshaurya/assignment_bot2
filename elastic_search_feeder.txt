@@ -1,0 +1,38 @@
+________________
+
+
+Documentation for the Elastic Search Feeder 
+This Jupyter Notebook is designed to preprocess a dataset of diseases and their associated symptoms, generate embeddings for the symptoms using a pre-trained transformer model, and index the data into Elasticsearch for efficient search and retrieval. Below is a summary of the key steps and functionalities implemented in this notebook.
+1. Preprocessing the Dataset
+        •        The dataset is loaded from a CSV file (dataset.csv).
+        •        A new column, Combined_Symptoms, is created by combining all symptom-related columns into a single string.
+        •        The dataset is filtered to retain only the Disease and Combined_Symptoms columns.
+        •        The data is grouped by Disease, and unique symptoms are aggregated for each disease.
+        •        The processed data is saved to a new CSV file (disease_symptoms.csv).
+2. Elasticsearch Setup
+        •        Elasticsearch is configured with a secure connection using a password and CA certificate.
+        •        An index (disease_prediction1) is created in Elasticsearch with mappings for disease, symptoms, and embedding fields. The embedding field is defined as a dense vector with 384 dimensions.
+3. Embedding Generation
+        •        A pre-trained transformer model (sentence-transformers/all-MiniLM-L6-v2) is used to generate embeddings for the symptoms.
+        •        Mean pooling is applied to the token embeddings to create a single vector representation for each symptom.
+4. Indexing Data into Elasticsearch
+        •        The processed dataset is indexed into Elasticsearch.
+        •        Each document contains the disease name, combined symptoms, and the embedding vector.
+        •        Bulk indexing is performed with error handling to ensure robustness.
+5. Searching for Symptoms
+        •        A search function is implemented to find the most relevant diseases based on user input symptoms.
+        •        The function generates an embedding for the user query and performs a cosine similarity search in Elasticsearch.
+        •        The top-k most relevant results are returned, including the disease name, symptoms, and relevance score.
+6. Dependencies
+The notebook uses the following Python libraries:
+        •        pandas for data manipulation.
+        •        transformers for loading the pre-trained model and tokenizer.
+        •        torch for tensor operations.
+        •        elasticsearch for interacting with the Elasticsearch instance.
+        •        langchain-elasticsearch for advanced Elasticsearch functionalities.
+7. Usage
+        •        Run the cells sequentially to preprocess the data, set up Elasticsearch, index the data, and perform searches.
+        •        Modify the user_query variable to test the search functionality with different symptoms.
+This notebook provides a complete pipeline for disease prediction based on symptoms using Elasticsearch and transformer-based embeddings.
+________________
+

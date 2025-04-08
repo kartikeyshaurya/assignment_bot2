@@ -1,0 +1,16 @@
+﻿Notebook Documentation
+This notebook demonstrates an architecture for retrieving and processing disease-related information based on user input of symptoms. It integrates search, language models, and stateful graph-based control flows. Below is a brief overview of how it works.
+Overview
+        •        Data & API Setup:
+The notebook utilizes libraries such as requests, langchain, langgraph, and elasticsearch. Helper modules load models and generate embeddings for symptom queries.
+        •        Tool Definitions:
+Two primary tools are defined:
+• retriever2: Searches an Elasticsearch index for documents matching symptom embeddings using cosine similarity.
+• retriever3: Calls an external API to predict the disease given a list of symptoms.
+        •        Document Grading:
+The grade_documents function uses an LLM (via OllamaFunctions) to score the relevance of retrieved documents using a binary (yes/no) check.
+        •        State Graph & Agent Architecture:
+A state graph is built using langgraph tools to control the conversation flow. An assistant node, connected with tool nodes (and fallback mechanisms), uses a prepared prompt and an LLM (ChatOllama) to process user queries. The system iteratively invokes tools until a relevant answer is produced.
+        •        Execution Flow:
+Upon receiving input (e.g., “I have a cough”), the assistant starts the process by invoking the first tool. If insufficient, it falls back to the second tool. Each response is graded for relevance before final output, ensuring meaningful and accurate responses.
+This architecture showcases the blend of traditional search mechanisms with modern LLM reasoning in an interactive, stateful notebook environment.
